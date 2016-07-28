@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import subside.plugins.koth.adapter.Koth;
 import subside.plugins.koth.adapter.KothHandler;
 import subside.plugins.koth.adapter.RunningKoth;
 import subside.plugins.koth.adapter.TimeObject;
@@ -36,6 +37,25 @@ public class ExpansionKoTH extends PlaceholderExpansion {
         if (identifier.equals("nextevent")) {
             return TimeObject.getTimeTillNextEvent();
         }
+        
+        for(Koth koth : KothHandler.getInstance().getAvailableKoths()){
+            String name = koth.getName().toLowerCase();
+            if(identifier.equals("live_"+name+"_isrunning")) return koth.isRunning()?"True":"False";
+            if(identifier.equals("live_"+name+"_name")) return koth.getName();
+            if(identifier.equals("live_"+name+"_loot")) return koth.getLoot();
+            if(identifier.equals("live_"+name+"_x")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("live_"+name+"_y")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("live_"+name+"_z")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("live_"+name+"_world")) return ""+koth.getMiddle().getWorld().getName();
+            
+            if(identifier.equals("live_"+name+"_nextevent")) return TimeObject.getTimeTillNextEvent(koth);
+                    
+            if(identifier.equals("live_"+name+"_lastwinner")){
+                if(koth.getLastWinner() == null) return "";
+                return koth.getLastWinner().getName();
+            }
+        }
+        
         if (KothHandler.getInstance().getRunningKoth() == null) return "";
         
         RunningKoth rKoth = KothHandler.getInstance().getRunningKoth();
@@ -59,10 +79,6 @@ public class ExpansionKoTH extends PlaceholderExpansion {
         if (identifier.equals("time_lengthinminutes")) return "" + rKoth.getTimeObject().getLengthInMinutes();
         if (identifier.equals("time_lengthinseconds")) return "" + rKoth.getTimeObject().getLengthInSeconds();
         
-        if (identifier.equals("lastwinner")) {
-            if (rKoth.getKoth().getLastWinner() == null) return "No Last Winner";
-            return rKoth.getKoth().getLastWinner().getName();
-        }
         if (identifier.equals("currentcapper")) {
             if (rKoth.getCapper() == null) return "No One";
             return rKoth.getCapper().getName();
@@ -71,7 +87,7 @@ public class ExpansionKoTH extends PlaceholderExpansion {
         
         if (identifier.equals("loot_name")) {
             if (rKoth.getLootChest() == null) return "No Loot Set";
-            return KothHandler.getInstance().getRunningKoth().getLootChest();
+            return rKoth.getLootChest();
         }
         if (identifier.equals("loot_x")) {
             if (rKoth.getKoth().getLootPos() == null) return "No Loot Set";
