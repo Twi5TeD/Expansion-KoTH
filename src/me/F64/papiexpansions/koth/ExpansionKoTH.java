@@ -8,6 +8,7 @@ import subside.plugins.koth.adapter.Koth;
 import subside.plugins.koth.adapter.KothHandler;
 import subside.plugins.koth.adapter.RunningKoth;
 import subside.plugins.koth.adapter.TimeObject;
+import subside.plugins.koth.scheduler.ScheduleHandler;
 
 public class ExpansionKoTH extends PlaceholderExpansion {
     public boolean canRegister() {
@@ -55,6 +56,29 @@ public class ExpansionKoTH extends PlaceholderExpansion {
                 return koth.getLastWinner().getName();
             }
         }
+        
+        if(ScheduleHandler.getInstance().getNextEvent() != null){
+            String sKoth = ScheduleHandler.getInstance().getNextEvent().getKoth();
+            if(sKoth == null) return "";
+            
+            Koth koth = KothHandler.getInstance().getKoth(sKoth);
+            
+            if(identifier.equals("next_isrunning")) return koth.isRunning()?"True":"False";
+            if(identifier.equals("next_name")) return koth.getName();
+            if(identifier.equals("next_loot")) return koth.getLoot();
+            if(identifier.equals("next_x")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("next_y")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("next_z")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("next_world")) return ""+koth.getMiddle().getWorld().getName();
+            
+            if(identifier.equals("next_nextevent")) return TimeObject.getTimeTillNextEvent(koth);
+                    
+            if(identifier.equals("next_lastwinner")){
+                if(koth.getLastWinner() == null) return "";
+                return koth.getLastWinner().getName();
+            }
+        }
+        
         
         if (KothHandler.getInstance().getRunningKoth() == null) return "";
         
