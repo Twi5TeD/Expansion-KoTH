@@ -45,8 +45,8 @@ public class ExpansionKoTH extends PlaceholderExpansion {
             if(identifier.equals("live_"+name+"_name")) return koth.getName();
             if(identifier.equals("live_"+name+"_loot")) return koth.getLoot();
             if(identifier.equals("live_"+name+"_x")) return ""+koth.getMiddle().getBlockX();
-            if(identifier.equals("live_"+name+"_y")) return ""+koth.getMiddle().getBlockX();
-            if(identifier.equals("live_"+name+"_z")) return ""+koth.getMiddle().getBlockX();
+            if(identifier.equals("live_"+name+"_y")) return ""+koth.getMiddle().getBlockY();
+            if(identifier.equals("live_"+name+"_z")) return ""+koth.getMiddle().getBlockZ();
             if(identifier.equals("live_"+name+"_world")) return ""+koth.getMiddle().getWorld().getName();
             
             if(identifier.equals("live_"+name+"_nextevent")) return TimeObject.getTimeTillNextEvent(koth);
